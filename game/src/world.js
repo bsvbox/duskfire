@@ -67,7 +67,6 @@ export function createWorld(random) {
   }
 
   function reset() {
-    const kept = state.ambient;
     Object.assign(state, freshState());
     spawnTimer = 1.2;
     petalTimer = SUNPETAL.everySeconds;
@@ -82,7 +81,6 @@ export function createWorld(random) {
         speed: 0.4 + random() * 0.9,
       });
     }
-    void kept;
   }
 
   function groundTop() {
@@ -92,7 +90,9 @@ export function createWorld(random) {
   function playerRect() {
     const p = state.player;
     const height = p.sliding > 0 ? PLAYER.slideHeight : PLAYER.height;
-    return { x: PLAYER.x, y: FIELD.groundY - height, w: PLAYER.width, h: height };
+    // Grounded, the feet sit on the ground line; airborne, p.y is the top.
+    const y = p.grounded ? FIELD.groundY - height : p.y;
+    return { x: PLAYER.x, y, w: PLAYER.width, h: height };
   }
 
   function burst(x, y, color, count, power) {
@@ -160,16 +160,16 @@ export function createWorld(random) {
     const level = state.level;
     if (roll < 0.3) {
       spawnThorn(x, false);
-      if (random() < 0.45) spawnSporeArc(x + 40, FIELD.groundY - 150);
+      if (random() < 0.45) spawnSporeArc(x + 40, FIELD.groundY - 110);
     } else if (roll < 0.5) {
-      const count = 2 + pickInt(random, 0, 2);
+      const count = 2;
       for (let i = 0; i < count; i += 1) spawnThorn(x + i * (THORN.width + SPAWN.thornGap), random() < 0.3);
-      spawnSporeArc(x + 80, FIELD.groundY - 170);
+      spawnSporeArc(x + 80, FIELD.groundY - 120);
     } else if (roll < 0.68 && level >= 2) {
       spawnMoth(x);
       if (random() < 0.5) spawnSporeLine(x + 90, FIELD.groundY - 30);
     } else if (roll < 0.86) {
-      spawnSporeArc(x + 60, FIELD.groundY - 160);
+      spawnSporeArc(x + 60, FIELD.groundY - 110);
       if (level >= 3 && random() < 0.4) spawnThorn(x + 260, false);
     } else {
       spawnSporeLine(x, FIELD.groundY - 34);

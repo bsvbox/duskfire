@@ -227,7 +227,8 @@ export function createRenderer(canvas) {
     const sliding = p.sliding > 0;
     const height = sliding ? PLAYER.slideHeight : PLAYER.height;
     const x = PLAYER.x + PLAYER.width / 2;
-    const y = FIELD.groundY - height / 2;
+    // Grounded, the body sits on the ground line; airborne, p.y is the top.
+    const y = p.grounded ? FIELD.groundY - height / 2 : p.y + height / 2;
     const blink = p.invuln > 0 && Math.floor(state.time * 12) % 2 === 0;
     const bob = p.grounded ? Math.sin(state.time * 10) * 1.5 : 0;
     const flap = Math.sin(state.time * (p.grounded ? 18 : 30)) * 0.6;
@@ -450,8 +451,7 @@ export function createRenderer(canvas) {
       else drawThorn(ob);
     }
     drawParticles(state);
-    if (screen !== SCREEN_TITLE) drawPlayer(state);
-    else drawPlayer(state);
+    drawPlayer(state);
     // Hit flash: a red edge while the invulnerability window opens.
     if (state.player.invuln > PLAYER.invulnerableSeconds - 0.25 && state.player.invuln > 0) {
       ctx.fillStyle = 'rgba(255, 60, 60, 0.14)';

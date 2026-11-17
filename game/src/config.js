@@ -21,9 +21,9 @@ export const PLAYER = {
   width: 36,
   height: 34,
   slideHeight: 18,
-  gravity: 2400,
-  jumpVelocity: -790,
-  doubleJumpVelocity: -690,
+  gravity: 2100,
+  jumpVelocity: -820,
+  doubleJumpVelocity: -720,
   diveVelocity: 1900,
   slideSeconds: 0.55,
   invulnerableSeconds: 1.5,
@@ -38,9 +38,9 @@ export const SPEED = {
 };
 
 export const SPAWN = {
-  interval: 1.15,
-  intervalScale: 0.93,
-  minInterval: 0.5,
+  interval: 1.5,
+  intervalScale: 0.97,
+  minInterval: 1.35,
   thornGap: 90,
 };
 
@@ -54,14 +54,14 @@ export const THORN = {
 export const MOTH = {
   width: 46,
   height: 26,
-  flyHeight: 96,
-  bob: 14,
+  flyHeight: 52,
+  bob: 6,
 };
 
 export const SPORE = {
   radius: 11,
   points: 10,
-  arcHeight: 120,
+  arcHeight: 70,
 };
 
 export const COMBO_MAX = 5;
